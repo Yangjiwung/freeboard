@@ -8,6 +8,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -50,10 +51,35 @@ public class FreeBoardController {
             Long bno = service.register(freeBoardDTO);
             redirectAttributes.addFlashAttribute("msg", bno);
         }
+        return "redirect:/freeboard/list";
+    }
 
+    @GetMapping({"/read", "/modify"})
+    public void read(Long bno , @ModelAttribute("requestDTO") PageRequestDTO requestDTO, Model model){
 
+        FreeBoardDTO freeBoardDTO = service.read(bno);
+        model.addAttribute("dto", freeBoardDTO);
+    }
 
+    @PostMapping("/remove")
+    public String remove(Long bno, RedirectAttributes redirectAttributes){
+        log.info(bno + "번 게시물 삭제");
+        service.remove(bno);
+
+        redirectAttributes.addFlashAttribute("msg", bno);
 
         return "redirect:/freeboard/list";
     }
+
+    @PostMapping("/modify")
+    public String modify(FreeBoardDTO freeBoardDTO, @ModelAttribute("requestDTO") PageRequestDTO requestDTO, RedirectAttributes redirectAttributes){
+
+        service.modify(freeBoardDTO);
+
+        redirectAttributes.addAttribute("page", requestDTO.getPage());
+        redirectAttributes.addAttribute("bno", freeBoardDTO.getBno());
+
+        return "redirect:/freeboard/read";
+    }
+
 }

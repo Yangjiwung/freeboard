@@ -11,6 +11,13 @@ public interface FreeBoardService {
 
     PageResultDTO<FreeBoardDTO, FreeBoard> getList(PageRequestDTO requestDTO);
 
+    FreeBoardDTO read(Long bno);
+
+    void modify(FreeBoardDTO freeBoardDTO);
+
+    void remove(Long bno);
+
+
     default FreeBoard dtoToEntity(FreeBoardDTO freeBoardDTO){
         FreeBoard entity = FreeBoard.builder()
                 .bno(freeBoardDTO.getBno())
@@ -33,4 +40,5 @@ public interface FreeBoardService {
                 .build();
         return dto;
     }
+
 }

@@ -22,12 +22,13 @@
 
             <tbody>
             <tr th:each="dto : ${result.dtoList}">
-                <a th:href="@{/freeboard/read(bno= ${dto.bno}, page= ${result.page})}">
-                <th scope="row">[[${dto.bno}]]</th>
+                <th scope="row">
+                    <a th:href="@{/freeboard/read(bno= ${dto.bno}, page= ${result.page})}">[[${dto.bno}]]</a>
+                </th>
                 <td>[[${dto.title}]]</td>
                 <td>[[${dto.writer}]]</td>
                 <td>[[${#temporals.format(dto.regDate, 'yyyy/MM/dd')}]]</td>
-                </a>
+
             </tr>
             </tbody>
         </table>
